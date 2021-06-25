@@ -1,5 +1,6 @@
 version: '2'
 services:
+
   postgres:
     image: postgres
     container_name: postgres
@@ -12,6 +13,7 @@ services:
       - /Users/choi-ys/volumes/postgresql/data:/var/lib/postgresql/data # mac
       # - /mnt/postgres/data:/var/lib/postgresql/data # windows
     restart: always
+    
   # docker run -d -p 1521:1521 -p 81:81 -v {local/dir/path}}:/opt/h2-data -e H2_OPTIONS='-ifNotExists' --name=h2 oscarfonts/h2
   h2:
     container_name: 'h2'
@@ -26,6 +28,7 @@ services:
       - /Users/choi-ys/volumes/h2:/opt/h2-data # mac
       # - /Users/arura/h2:/opt/h2-data # windows
     restart: always
+    
   redis:
     image: redis
     command: redis-server --port 6379
@@ -33,6 +36,7 @@ services:
     restart: always
     ports:
       - 6379:6379
+      
   # https://blog.knowledgebox.online/linux/lnx-mysql-with-docker/
   mysql:
     container_name: mysql
