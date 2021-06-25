@@ -1,0 +1,50 @@
+version: '2'
+services:
+  postgres:
+    image: postgres
+    container_name: postgres
+    environment:
+      - POSTGRES_PASSWORD=password
+    ports:
+      - '5432:5432'
+    volumes:
+      # - {your_custom_path}:/var/lib/postgresql/data
+      - /Users/choi-ys/volumes/postgresql/data:/var/lib/postgresql/data # mac
+      # - /mnt/postgres/data:/var/lib/postgresql/data # windows
+    restart: always
+  # docker run -d -p 1521:1521 -p 81:81 -v {local/dir/path}}:/opt/h2-data -e H2_OPTIONS='-ifNotExists' --name=h2 oscarfonts/h2
+  h2:
+    container_name: 'h2'
+    hostname: 'h2'
+    image: oscarfonts/h2
+    ports:
+      - 81:81
+      - 1521:1521
+    environment:
+      - H2_OPTIONS=-ifNotExists
+    volumes:
+      - /Users/choi-ys/volumes/h2:/opt/h2-data # mac
+      # - /Users/arura/h2:/opt/h2-data # windows
+    restart: always
+  redis:
+    image: redis
+    command: redis-server --port 6379
+    container_name: redis
+    restart: always
+    ports:
+      - 6379:6379
+  # https://blog.knowledgebox.online/linux/lnx-mysql-with-docker/
+  mysql:
+    container_name: mysql
+    image: mysql
+    ports:
+      - 3306:3306
+    volumes:
+      - /Users/choi-ys/volumes/mysql/data:/var/lib/mysql
+      - /Users/choi-ys/volumes/mysql/config:/etc/mysql/conf.d
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_USER=mysql
+      - MYSQL_USER_PASSWORD=password
+    restart: always
+  
