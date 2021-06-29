@@ -28,16 +28,8 @@ services:
       - /Users/choi-ys/volumes/h2:/opt/h2-data # mac
       # - /Users/arura/h2:/opt/h2-data # windows
     restart: always
-    
-  redis:
-    image: redis
-    command: redis-server --port 6379
-    container_name: redis
-    restart: always
-    ports:
-      - 6379:6379
-      
-  # https://blog.knowledgebox.online/linux/lnx-mysql-with-docker/
+  
+    # https://blog.knowledgebox.online/linux/lnx-mysql-with-docker/
   mysql:
     container_name: mysql
     image: mysql
@@ -51,6 +43,48 @@ services:
       - MYSQL_USER=mysql
       - MYSQL_USER_PASSWORD=password
     restart: always
+    
+  redis:
+    image: redis
+    command: redis-server --port 6379
+    container_name: redis
+    restart: always
+    ports:
+      - 6379:6379
+    
+  mongo:
+    image: mongo
+    container_name: mongo
+    ports:
+      - 27017:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root_admin
+      MONGO_INITDB_ROOT_PASSWORD: root_admin
+    restart: always
+    mem_limit: "512m"
+    
+  elasticsearch:
+    image: elasticsearch:7.9.0
+    container_name: elasticsearch
+    environment:
+      - discovery.type=single-node
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - node.name=elasticsearch
+      - cluster.name=elasticsearch-docker-cluster
+#      - bootstrap.memory_lock=true
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+#    volumes:
+#      - data01:/usr/share/elasticsearch/data
+    ports:
+      - 9200:9200
+#      - 9300:9300
+#    networks:
+#      - elastic
+    restart: always
+    mem_limit: "512m"
     
   # https://akageun.github.io/2020/05/01/docker-compose-kafka-cluster-manager.html
   # https://www.programmersought.com/article/64294852475/
