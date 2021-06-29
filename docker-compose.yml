@@ -51,8 +51,12 @@ services:
       - MYSQL_USER=mysql
       - MYSQL_USER_PASSWORD=password
     restart: always
+    
+  # https://akageun.github.io/2020/05/01/docker-compose-kafka-cluster-manager.html
+  # https://www.programmersought.com/article/64294852475/
+  # https://bigdatalab.tistory.com/26
   zookeeper:
-    image: wurstmeister/zookeeper
+    image: zookeeper
     container_name: zookeeper
     ports:
       - "2181:2181"
@@ -62,6 +66,8 @@ services:
     ports:
       - "9092:9092"
     environment:
+      JMX_PORT: 9093
+      KAFKA_JMX_OPTS: -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Djava.rmi.server.hostname=${EXPOSED_HOSTNAME} -Dcom.sun.management.jmxremote.rmi.port=9093
       KAFKA_ADVERTISED_HOST_NAME: 127.0.0.1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
     volumes:
@@ -77,4 +83,3 @@ services:
       KAFKA_MANAGER_AUTH_ENABLED: "true"
       KAFKA_MANAGER_USERNAME: username
       KAFKA_MANAGER_PASSWORD: password
-  
