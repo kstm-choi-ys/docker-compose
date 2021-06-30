@@ -123,3 +123,23 @@ services:
       KAFKA_MANAGER_AUTH_ENABLED: "true"
       KAFKA_MANAGER_USERNAME: username
       KAFKA_MANAGER_PASSWORD: password
+      
+  ngrinder-controller:
+    image: ngrinder/controller
+    restart: always
+    ports: 
+      - "9002:80"
+      - "16001:16001"
+      - "12000-12009:12000-12009"
+    volumes: 
+      - /Users/choi-ys/volumes/ngrinder-controller-date:/opt/ngrinder-controller
+      
+  # docker run -v /Users/choi-ys/volumes/ngrinder-agent:/opt/ngrinder-agent -d ngrinder/agent localhost:9002
+  ngrinder-agent:
+    image: ngrinder/agent
+    restart: always
+    volumes: 
+      - /Users/choi-ys/volumes/ngrinder-agent:/opt/ngrinder-agent
+    links:    
+      - ngrinder-controller
+      # - localhost:9092
