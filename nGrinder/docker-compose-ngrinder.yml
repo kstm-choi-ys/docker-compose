@@ -1,7 +1,8 @@
-version: '2'
+version: '3'
 services: 
   # https://brownbears.tistory.com/25
-  # docker run -v /Users/choi-ys/volumes/ngrinder-controller-date:/opt/ngrinder-controller -p 9002:80 -p 16001:16001 -p 12000-12009:12000-12009 -d ngrinder/controller
+  # docker run -v ~/volumes/ngrinder-controller-date:/opt/ngrinder-controller -p 9002:80 -p 16001:16001 -p 12000-12009:12000-12009 -d ngrinder/controller
+  # docker run -v ~/volumes/ngrinder-controller:/opt/ngrinder-controller -p 8080:80 -p 16001:16001 -p 12000-12009:12000-12009 -d ngrinder/controller:3.4
   ngrinder-controller:
     image: ngrinder/controller
     restart: always
@@ -12,12 +13,15 @@ services:
     volumes: 
       - /Users/choi-ys/volumes/ngrinder-controller-date:/opt/ngrinder-controller
       
-  # docker run -v /Users/choi-ys/volumes/ngrinder-agent:/opt/ngrinder-agent -d ngrinder/agent localhost:9002
+  # docker run -v ~/volumes/ngrinder-agent:/opt/ngrinder-agent -d ngrinder/agent:3.4 host.docker.internal:9002
+  # docker run -v ~/volumes/ngrinder-agent:/opt/ngrinder-agent -d ngrinder/agent host.docker.internal:9002
   ngrinder-agent:
     image: ngrinder/agent
+    container_name: ngrinder-agent
     restart: always
-    volumes: 
-      - /Users/choi-ys/volumes/ngrinder-agent:/opt/ngrinder-agent
-    links:    
-      - ngrinder-controller
-      # - localhost:9092
+    volumes:
+      - ~/volumes/ngrinder-agent:/opt/ngrinder-agent
+    links:
+      - "host.docker.internal:9002"
+    depends_on:
+      - "ngrinder-controller"

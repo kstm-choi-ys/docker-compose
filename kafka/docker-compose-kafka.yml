@@ -1,5 +1,6 @@
-version: '2'
+version: '3'
 services:
+
   # https://akageun.github.io/2020/05/01/docker-compose-kafka-cluster-manager.html
   # https://www.programmersought.com/article/64294852475/
   # https://bigdatalab.tistory.com/26
@@ -12,6 +13,14 @@ services:
   # docker exec -it kafka bash
   # cd opt/kafka
   # ./bin/kafka-topics.sh --create --zookeeper zookeeper:2181 --replication-factor 1 --partitions 1 --topic test-topic
+  # ./bin/kafka-topics.sh --bootstrap-server localhost:9092 --list
+  # ./bin/kafka-topics.sh --bootstrap-server localhost:9092 test --describe | grep test
+  # ./bin/kafka-console-producer.sh --broker-list localhost:9092 --topic test-topic
+  # ./bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic test-topic --from-beginning
+  # ./bin/kafka-consumer-groups.sh  --bootstrap-server localhost:9092 --list
+  # ./bin/kafka-consumer-groups.sh  --bootstrap-server localhost:9092 --group dl-load-consumer --describe
+
+
   kafka:
     image: wurstmeister/kafka
     container_name: kafka

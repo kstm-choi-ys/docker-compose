@@ -1,5 +1,6 @@
-version: '2'
+version: '3'
 services:
+
   kafka_manager:
     image: hlebalbau/kafka-manager:stable
     container_name: kafka-manager
@@ -13,12 +14,10 @@ services:
       KAFKA_MANAGER_PASSWORD: password
       KM_ARGS: -Djava.net.preferIPv4Stack=true
 
-  # docker run -it -p 9001:8080 -e ZK=<zookeeper_location> --REFRESH=10.seconds --RETAIN=2.days jpodeszwik/kafka-offset-monitor
   # docker run -d -p 9001:8080 -e ZK=aa.cloudm.link:2181 jpodeszwik/kafka-offset-monitor
-  kafka-monitor:
+  kafka-offset-monitor:
     image: jpodeszwik/kafka-offset-monitor
-    container_name: kafka-monitor
-    # command: --zk zookeeper:2181 --port 8080 --refresh 10.seconds --retain 2.days
+    container_name: kafka-offset-monitor
     ports:
       - 8080:8080
     environment:

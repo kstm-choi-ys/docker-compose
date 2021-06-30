@@ -1,5 +1,6 @@
-version: '2'
+version: '3'
 services:
+
  # docker run -d -p 1521:1521 -p 81:81 -v {local/dir/path}}:/opt/h2-data -e H2_OPTIONS='-ifNotExists' --name=h2 oscarfonts/h2
   h2:
     container_name: 'h2'

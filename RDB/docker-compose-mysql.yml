@@ -1,4 +1,4 @@
-version: '2'
+version: '3'
 services:
 
   # https://blog.knowledgebox.online/linux/lnx-mysql-with-docker/
