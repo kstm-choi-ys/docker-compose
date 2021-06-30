@@ -24,16 +24,3 @@ services:
 #      KAFKA_JMX_OPTS: -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Djava.rmi.server.hostname=127.0.0.1 -Dcom.sun.management.jmxremote.rmi.port=9093
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      
-  # https://www.youtube.com/watch?v=enqqp2ZIEyE
-  kafka_manager:
-    image: hlebalbau/kafka-manager:stable
-    container_name: kafka-manager
-    ports:
-      - "9000:9000"
-    environment:
-      ZK_HOSTS: "zookeeper:2181"
-      APPLICATION_SECRET: "password"
-      KAFKA_MANAGER_AUTH_ENABLED: "true"
-      KAFKA_MANAGER_USERNAME: username
-      KAFKA_MANAGER_PASSWORD: password
