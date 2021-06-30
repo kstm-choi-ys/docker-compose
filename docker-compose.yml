@@ -94,18 +94,24 @@ services:
     container_name: zookeeper
     ports:
       - "2181:2181"
+      
+  # docker exec -it kafka bash
+  # cd opt/kafka
+  # ./bin/kafka-topics.sh --create --zookeeper zookeeper:2181 --replication-factor 1 --partitions 1 --topic test-topic
   kafka:
     image: wurstmeister/kafka
     container_name: kafka
     ports:
       - "9092:9092"
     environment:
-      JMX_PORT: 9093
-      KAFKA_JMX_OPTS: -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Djava.rmi.server.hostname=${EXPOSED_HOSTNAME} -Dcom.sun.management.jmxremote.rmi.port=9093
-      KAFKA_ADVERTISED_HOST_NAME: 127.0.0.1
+      KAFKA_ADVERTISED_HOST_NAME: localhost
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+#      JMX_PORT: 9093
+#      KAFKA_JMX_OPTS: -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Djava.rmi.server.hostname=127.0.0.1 -Dcom.sun.management.jmxremote.rmi.port=9093
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+      
+  # https://www.youtube.com/watch?v=enqqp2ZIEyE
   kafka_manager:
     image: hlebalbau/kafka-manager:stable
     container_name: kafka-manager
